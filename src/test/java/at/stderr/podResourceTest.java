@@ -12,10 +12,9 @@ public class podResourceTest {
     @Test
     public void testHelloEndpoint() {
         given()
-          .when().get("/pods")
+          .when().get("/pods/nginx")
           .then()
-             .statusCode(200)
-             .body(is("Hello RESTEasy"));
+             .statusCode(200);
     }
 
 }
