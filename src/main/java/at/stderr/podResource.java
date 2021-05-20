@@ -1,5 +1,6 @@
 package at.stderr;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -10,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 
 import io.fabric8.kubernetes.api.model.Pod;
 import io.fabric8.kubernetes.client.KubernetesClient;
+import io.fabric8.kubernetes.client.KubernetesClientException;
 
 @Path("/pods")
 public class podResource {
@@ -20,11 +22,21 @@ public class podResource {
 	this.k8sClient = k8sClient;
     }
 
+
+
     @GET
     @Path("{namespace}")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Pod> pods(@PathParam("namespace") String namespace) {
-	List<Pod> pods = k8sClient.pods().inNamespace(namespace).list().getItems();
+	System.out.println("hello world");
+	List<Pod> pods = Collections.<Pod>emptyList();
+
+	try {
+	    pods = k8sClient.pods().inNamespace(namespace).list().getItems();
+	}
+	catch (KubernetesClientException e) {
+	    System.out.println(e.getMessage());
+	}
 	//System.out.println(pods);
 	return pods;
     }
