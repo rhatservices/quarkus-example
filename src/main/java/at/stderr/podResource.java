@@ -8,6 +8,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import io.fabric8.kubernetes.api.model.Pod;
 import io.fabric8.kubernetes.client.KubernetesClient;
@@ -22,13 +23,10 @@ public class podResource {
 	this.k8sClient = k8sClient;
     }
 
-
-
     @GET
     @Path("{namespace}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Pod> pods(@PathParam("namespace") String namespace) {
-	System.out.println("hello world");
+    public Response pods(@PathParam("namespace") String namespace) {
 	List<Pod> pods = Collections.<Pod>emptyList();
 
 	try {
@@ -37,7 +35,11 @@ public class podResource {
 	catch (KubernetesClientException e) {
 	    System.out.println(e.getMessage());
 	}
-	//System.out.println(pods);
-	return pods;
+
+	if (pods.isEmpty()) {
+	    return Response.noContent().build();
+	}
+
+	return Response.ok(pods).build();
     }
 }
