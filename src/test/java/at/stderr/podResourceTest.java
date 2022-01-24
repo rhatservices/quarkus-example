@@ -9,12 +9,12 @@ import static org.hamcrest.CoreMatchers.is;
 @QuarkusTest
 public class podResourceTest {
 
-    @Test
-    public void testHelloEndpoint() {
-        given()
-          .when().get("/pods/nginx")
-          .then()
-             .statusCode(200);
-    }
+//    @Test
+//    public void testHelloEndpoint() {
+//        given()
+//          .when().get("/pods/nginx")
+//          .then()
+//             .statusCode(200);
+//    }
 
 }
